@@ -1,0 +1,15 @@
+{
+  "name": "@kindling/foundation",
+  "license": "MIT",
+  "version": "0.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "/helpers.js",
+    "/Application.js"
+  ],
+  "dependencies": {
+    "@kindling/container": "^0.0.0"
+  }
+}
