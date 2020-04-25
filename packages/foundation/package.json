@@ -6,12 +6,12 @@
     "access": "public"
   },
   "files": [
-    "/http",
-    "/console",
-    "/bootstrap",
-    "/helpers.js",
+    "/globals.js",
     "/Application.js",
-    "/EnvironmentDetector.js"
+    "/Container.js",
+    "/Provider.js",
+    "/Repository.js",
+    "/providers"
   ],
   "dependencies": {
     "@kindling/container": "^0.0.0",

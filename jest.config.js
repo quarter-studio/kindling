@@ -1,4 +1,4 @@
 module.exports = {
-  setupFiles: ['<rootDir>/packages/framework/index.js'],
+  setupFiles: ['<rootDir>/packages/foundation/globals.js'],
   testEnvironment: 'node',
 }

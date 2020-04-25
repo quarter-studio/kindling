@@ -1,13 +1,13 @@
 const Application = require('@kindling/foundation/Application')
 
-const basePath = require('path').resolve(__dirname, 'stubs')
-
 describe('@kindling/foundation/Application', () => {
   test('setup environment', () => {
-    const app = new Application(basePath)
+    const app = require('../../stubs/project/boot/app')
 
-    expect(app.path()).toBe(basePath + '/app')
+    expect(app.get('config').get('app.name')).toBe('Testing')
 
-    // expect(app.environment()).toBe('local')
+    expect(app.environment()).toBe('production')
+
+    expect(app.getLocale()).toBe('en')
   })
 })
