@@ -1,7 +1,11 @@
 module.exports = {
   exists: require('lodash/includes'),
 
+  flatMap: require('lodash/flatMap'),
+
   head: require('lodash/head'),
+
+  map: require('lodash/map'),
 
   some: require('lodash/some'),
 

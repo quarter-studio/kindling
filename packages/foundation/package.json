@@ -6,10 +6,20 @@
     "access": "public"
   },
   "files": [
+    "/http",
+    "/console",
+    "/bootstrap",
     "/helpers.js",
-    "/Application.js"
+    "/Application.js",
+    "/EnvironmentDetector.js"
   ],
   "dependencies": {
-    "@kindling/container": "^0.0.0"
+    "@kindling/container": "^0.0.0",
+    "@kindling/contracts": "^0.0.0",
+    "@kindling/events": "^0.0.0",
+    "@kindling/support": "^0.0.0",
+    "commander": "^5.0.0",
+    "dotenv": "^8.2.0",
+    "fs-finder": "^1.8.1"
   }
 }

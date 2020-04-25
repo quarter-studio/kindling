@@ -1,3 +1,5 @@
+const EventServiceProvider = require('@kindling/events/EventServiceProvider')
+const EnvironmentDetector = require('@kindling/foundation/EnvironmentDetector')
 const Container = require('@kindling/container/Container')
 const Arr = require('@kindling/support/Arr')
 const Obj = require('@kindling/support/Obj')
@@ -30,7 +32,7 @@ class Application extends Container {
   }
 
   registerBaseServiceProviders() {
-    // this.register(new EventServiceProvider(this))
+    this.register(new EventServiceProvider(this))
     // this.register(new LogServiceProvider(this))
     // this.register(new RoutingServiceProvider(this))
   }
@@ -171,11 +173,9 @@ class Application extends Container {
   }
 
   detectEnvironment(callback) {
-    // $args = $_SERVER['argv'] ?? null;
+    const detector = new EnvironmentDetector()
 
-    // return this['env'] = (new EnvironmentDetector)->detect($callback, $args);
-
-    this.instance('env', 'local')
+    return this.instance('env', detector.detect(callback, process.argv))
   }
 
   runningUnitTests() {
@@ -183,24 +183,22 @@ class Application extends Container {
   }
 
   registerConfiguredProviders() {
-    // $providers = Collection.make(this.config['app.providers'])
-    //                 ->partition(function ($provider) {
-    //                     return strpos($provider, 'Illuminate\\') === 0;
-    //                 });
-    // $providers->splice(1, 0, [this.make(PackageManifest.class)->providers()]);
-    // (new ProviderRepository(this, new Filesystem, this.getCachedServicesPath()))
-    //             ->load($providers->collapse()->toArray());
+    const providers = this.make('config').get('app.providers')
+
+    Arr.walk(providers, provider => {
+      this.register(provider)
+    })
   }
 
   register(provider, force = false) {
-    const registered = this.getProvider($provider)
+    const registered = this.getProvider(provider)
 
     if (registered && !force) {
       return registered
     }
 
     if (Str.isString(provider)) {
-      provider = this.resolveProvider(provider)
+      provider = this.make(provider)
     }
 
     provider.register()
@@ -227,17 +225,13 @@ class Application extends Container {
   }
 
   getProviders(provider) {
-    const Provider = Arr.isString(provider) ? require(provider) : provider
+    const Provider = Str.isString(provider)
+      ? this.resolveClass(provider)
+      : provider.constructor
 
-    return Arr.where(this.$serviceProviders, value => {
-      return value instanceof Provider
+    return Arr.where(this.$serviceProviders, provider => {
+      return provider instanceof Provider
     })
-  }
-
-  resolveProvider(provider) {
-    const Provider = require(provider)
-
-    return new Provider(this)
   }
 
   markAsRegistered(provider) {
@@ -290,14 +284,6 @@ class Application extends Container {
     })
   }
 
-  abort(code, message = '', headers = {}) {
-    // if ($code == 404) {
-    //     throw new NotFoundHttpException($message);
-    // }
-    //
-    // throw new HttpException($code, $message, null, $headers);
-  }
-
   terminating(callback) {
     this.getCallbacks('terminating').push(callback)
 
@@ -319,7 +305,7 @@ class Application extends Container {
   setLocale(locale) {
     this.make('config').set('app.locale', locale)
 
-    // this.make('translator').setLocale(locale)
+    this.make('translator').setLocale(locale)
 
     // this.make('events').dispatch(new LocaleUpdated($locale));
   }

@@ -1,0 +1,12 @@
+{
+  "name": "@kindling/container",
+  "license": "MIT",
+  "version": "0.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "/console",
+    "/debug"
+  ]
+}

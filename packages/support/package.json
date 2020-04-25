@@ -8,8 +8,10 @@
   "files": [
     "/helpers.js",
     "/Arr.js",
+    "/Env.js",
     "/Obj.js",
-    "/Str.js"
+    "/Str.js",
+    "/ServiceProvider.js"
   ],
   "dependencies": {
     "lodash": "^4.17.15"

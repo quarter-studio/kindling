@@ -1,4 +1,4 @@
-module.exports = {
+const Obj = {
   has: require('lodash/has'),
 
   get: require('lodash/get'),
@@ -6,14 +6,16 @@ module.exports = {
   set: require('lodash/set'),
 
   getOrSet(target, key, value) {
-    const exists = this.has(target, key)
+    const exists = Obj.has(target, key)
 
     if (exists) {
-      return this.get(target, key)
+      return Obj.get(target, key)
     }
 
-    this.set(target, key, value)
+    Obj.set(target, key, value)
 
     return value
   },
 }
+
+module.exports = Obj

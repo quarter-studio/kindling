@@ -1,5 +1,6 @@
 const Arr = require('@kindling/support/Arr')
 const Obj = require('@kindling/support/Obj')
+const Str = require('@kindling/support/Str')
 
 class Container {
   static get class() {
@@ -7,22 +8,28 @@ class Container {
   }
 
   constructor() {
-    this.instances = {}
-    this.bindings = {}
-    this.aliases = {}
-    this.with = []
+    this.$instances = {}
+    this.$bindings = {}
+    this.$aliases = {}
+    this.$with = []
   }
 
   bound(abstract) {
-    return abstract in this.bindings || abstract in this.instances || this.isAlias(abstract)
+    return (
+      abstract in this.$bindings ||
+      abstract in this.$instances ||
+      this.isAlias(abstract)
+    )
   }
 
   isShared(abstract) {
-    return this.instances.has(abstract) || this.getBinding(abstract).shared === true
+    return (
+      abstract in this.$instances || this.getBinding(abstract).shared === true
+    )
   }
 
   isAlias(name) {
-    return name in this.aliases
+    return name in this.$aliases
   }
 
   bind(abstract, concrete, shared = false) {
@@ -34,7 +41,7 @@ class Container {
       concrete = this.getClosure(abstract, concrete)
     }
 
-    this.bindings[abstract] = { concrete, shared }
+    this.$bindings[abstract] = { concrete, shared }
   }
 
   getClosure(abstract, concrete) {
@@ -52,9 +59,9 @@ class Container {
   }
 
   instance(abstract, instance) {
-    delete this.aliases[abstract]
+    delete this.$aliases[abstract]
 
-    this.instances[abstract] = instance
+    this.$instances[abstract] = instance
 
     return instance
   }
@@ -64,7 +71,7 @@ class Container {
       throw new Error(`[${abstract}] is aliased to itself.`)
     }
 
-    this.aliases[alias] = abstract
+    this.$aliases[alias] = abstract
   }
 
   make(abstract, ...parameters) {
@@ -78,27 +85,29 @@ class Container {
   resolve(abstract, parameters = {}, raiseEvents = true) {
     abstract = this.getAlias(abstract)
 
-    if (abstract in this.instances) {
-      return this.instances[abstract]
+    if (abstract in this.$instances) {
+      return this.$instances[abstract]
     }
 
-    this.with.push(parameters)
+    this.$with.push(parameters)
 
     const concrete = this.getConcrete(abstract)
 
-    const object = this.isBuildable(concrete, abstract) ? this.build(concrete) : this.make(concrete)
+    const object = this.isBuildable(concrete, abstract)
+      ? this.build(concrete)
+      : this.make(concrete)
 
     if (this.isShared(abstract)) {
-      this.instances[abstract] = object
+      this.$instances[abstract] = object
     }
 
-    this.with.pop()
+    this.$with.pop()
 
     return object
   }
 
   getConcrete(abstract) {
-    return Object.get(this.bindings, abstract + '.concrete', abstract)
+    return this.getBinding(abstract).concrete || abstract
   }
 
   isBuildable(concrete, abstract) {
@@ -107,55 +116,56 @@ class Container {
 
   build(concrete) {
     if (is_closure(concrete)) {
-      // TODO: spread parameters?
-      return concrete(this, this.getLastParameterOverride())
+      return concrete(this, this.getLastParameters())
     }
 
-    const constructor = reflector.getConstructor()
-
-    if (!constructor) {
-      return new concrete()
+    if (Str.isString(concrete)) {
+      concrete = this.resolveClass(concrete)
     }
 
-    const dependencies = constructor.getParameters()
+    const dependencies = this.getLastParameters()
 
-    const instances = this.resolveDependencies(dependencies)
-
-    return reflector.newInstanceArgs(instances)
+    return new concrete(dependencies)
   }
 
-  getLastParameterOverride() {
-    return Arr.last(this.with, {})
+  getLastParameters() {
+    return Arr.last(this.$with, {})
   }
 
   resolveClass(abstract) {
-    this.bind(abstract, require(abstract))
+    const concrete = require(abstract)
 
-    return abstract
+    this.bind(abstract, concrete)
+
+    if (concrete.class && concrete.class !== abstract) {
+      this.bind(concrete.class, concrete)
+    }
+
+    return concrete
   }
 
   getBinding(abstract) {
-    return Object.get(this.bindings, abstract, {})
+    return Obj.get(this.$bindings, abstract, {})
   }
 
   getAlias(abstract) {
-    const alias = this.aliases[abstract]
+    const alias = this.$aliases[abstract]
 
     return alias ? this.getAlias(alias) : abstract
   }
 
   flush() {
-    this.instances = {}
-    this.bindings = {}
-    this.aliases = {}
+    this.$instances = {}
+    this.$bindings = {}
+    this.$aliases = {}
   }
 
   static getInstance() {
-    return Object.getOrSet(this, 'instance', new this())
+    return Obj.getOrSet(this, '$instance', new this())
   }
 
   static setInstance(container) {
-    return (this.instance = container)
+    return (this.$instance = container)
   }
 }
 

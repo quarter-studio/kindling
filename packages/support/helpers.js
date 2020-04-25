@@ -1,5 +1,9 @@
+const Env = require('@kindling/support/Env')
+
 Object.assign(global, {
-  empty: require('lodash/isEmpty'),
+  blank: require('lodash/isEmpty'),
+
+  env: Env.get,
 
   get_class(source) {
     return source && source.class
@@ -11,6 +15,10 @@ Object.assign(global, {
 
   is_closure(source) {
     return typeof source === 'function' && !is_class(source)
+  },
+
+  onto(value, callback) {
+    return callback ? callback(value) : value
   },
 
   proxy(source, proxies = {}) {
@@ -50,6 +58,23 @@ Object.assign(global, {
     } else {
       return source
     }
+  },
+
+  tap(source, callback) {
+    if (callback) {
+      callback(source)
+
+      return source
+    }
+
+    return new Proxy(source, {
+      get(target, key) {
+        return function () {
+          target[key].apply(target, arguments)
+          return source
+        }
+      },
+    })
   },
 
   unwrap(source) {

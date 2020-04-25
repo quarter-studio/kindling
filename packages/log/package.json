@@ -1,0 +1,17 @@
+{
+  "name": "@kindling/log",
+  "license": "MIT",
+  "version": "0.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "/Logger.js",
+    "/LogManager.js",
+    "/LogServiceProvider.js"
+  ],
+  "dependencies": {
+    "@kindling/support": "^0.0.0",
+    "monolog": "^0.0.5"
+  }
+}
