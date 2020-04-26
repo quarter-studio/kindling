@@ -18,7 +18,8 @@ module.exports = {
   faker_locale: 'en_US',
 
   providers: [
-    '@kindling/foundation/providers/BootProvider', //
+    '@kindling/database/providers/DatabaseProvider',
+    '@kindling/foundation/providers/BootProvider',
   ],
 
   aliases: {

@@ -4720,13 +4720,6 @@ moment@~2.5.0:
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.5.1.tgz#7146a3900533064ca799d5e792f4e480ee0e82bc"
   integrity sha1-cUajkAUzBkynmdXnkvTkgO4Ogrw=
 
-monolog@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/monolog/-/monolog-0.0.5.tgz#79a64b09901c827f9e6f08b9e836b2082b95c617"
-  integrity sha1-eaZLCZAcgn+ebwi56DayCCuVxhc=
-  dependencies:
-    underscore "*"
-
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -6638,11 +6631,6 @@ umask@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/umask/-/umask-1.1.0.tgz#f29cebf01df517912bb58ff9c4e50fde8e33320d"
   integrity sha1-8pzr8B31F5ErtY/5xOUP3o4zMg0=
-
-underscore@*:
-  version "1.10.2"
-  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.10.2.tgz#73d6aa3668f3188e4adb0f1943bd12cfd7efaaaf"
-  integrity sha512-N4P+Q/BuyuEKFJ43B9gYuOj4TQUHXX+j2FqguVOpjkssLUUrnJofCcBccJSCoeturDoZU6GorDTHSvUDlSQbTg==
 
 union-value@^1.0.0:
   version "1.0.1"

@@ -1,4 +1,5 @@
 const Application = require('@kindling/foundation/Application')
+const DB = require('@kindling/foundation/facades/DB')
 
 describe('@kindling/foundation/Application', () => {
   test('setup environment', () => {
@@ -9,5 +10,9 @@ describe('@kindling/foundation/Application', () => {
     expect(app.environment()).toBe('production')
 
     expect(app.getLocale()).toBe('en')
+
+    expect(DB.getProject()).toBe('project-id')
+
+    expect(DB.create('alt').getProject()).toBe('project-alt')
   })
 })

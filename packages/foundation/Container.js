@@ -76,6 +76,10 @@ class Container {
 
     concrete = require(concrete)
 
+    if (!concrete) {
+      throw new Error(`Container concrete [${concrete}] does not exists.`)
+    }
+
     return new concrete(this, ...parameters)
   }
 

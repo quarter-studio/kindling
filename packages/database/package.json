@@ -1,0 +1,13 @@
+{
+  "name": "@kindling/database",
+  "license": "MIT",
+  "version": "0.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "/DatabaseManager.js",
+    "/DatabaseProvider.js",
+    "/Model.js"
+  ]
+}

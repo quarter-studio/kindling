@@ -23,6 +23,7 @@ class Application extends Container {
   registerBaseProviders() {
     this.register('@kindling/foundation/providers/EnvironmentProvider')
     this.register('@kindling/foundation/providers/ConfigProvider')
+    this.register('@kindling/foundation/providers/FacadeProvider')
   }
 
   setBasePath(cwd) {

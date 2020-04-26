@@ -1,58 +1,87 @@
 const upperFirst = require('lodash/upperFirst')
 const camelCase = require('lodash/camelCase')
+const replace = require('lodash/replace')
 
 class Manager {
   constructor(container) {
-    this.drivers = {}
-    this.creators = {}
-    this.container = container
     this.config = container.make('config')
-    this.app = container
+    this.container = container
+    this.services = {}
+    this.creators = {}
   }
 
-  getDefaultDriver() {
-    //
+  getKey() {
+    return 'services'
   }
 
-  driver(driver) {
-    driver = driver || this.getDefaultDriver()
-
-    if (!driver) {
-      throw new Error(`Unable to resolve NULL driver.`)
-    }
-
-    if (!this.drivers[driver]) {
-      this.drivers[driver] = this.createDriver(driver)
-    }
-
-    return this.drivers[$driver]
+  getName() {
+    return camelCase(replace(this.constructor.name, 'Manager', '')) || 'Manager'
   }
 
-  createDriver($driver) {
-    if (this.creators[driver]) {
-      return this.callCreator($driver)
-    }
-
-    const method = 'create' + upperFirst(camelCase(driver)) + 'Driver'
-
-    if (this[method]) {
-      return this.method()
-    }
-
-    throw new Error(`Driver [${driver}] not supported.`)
+  getConfig(service) {
+    return this.config.get([this.getName(), this.getKey(), service])
   }
 
-  callCreator(driver) {
-    return this.creators[driver](this.container)
+  getDefaultService(path = 'default') {
+    return this.config.get([this.getName(), path])
+  }
+
+  create(service) {
+    service = service || this.getDefaultService()
+
+    if (!this.services[service]) {
+      this.services[service] = this.service(service)
+    }
+
+    return this.services[service]
+  }
+
+  service(service) {
+    const config = this.getConfig(service)
+
+    if (!config) {
+      throw new Error(
+        `${upperFirst(this.getName())} service [${service}] is not defined.`
+      )
+    }
+
+    return this.driver(config.driver, config)
+  }
+
+  driver(driver, config) {
+    const creator = this.creators[driver]
+
+    if (creator) {
+      return creator(this.container, config)
+    }
+
+    const method = this[`create${upperFirst(camelCase(driver))}Driver`]
+
+    if (method) {
+      return method(this.container, config)
+    }
+
+    throw new Error(
+      `${upperFirst(this.getName())} driver [${driver}] is not defined.`
+    )
   }
 
   extend(driver, callback) {
     this.creators[driver] = callback
 
-    return this
+    return proxy(this)
   }
 
   $get(key) {
-    return this.driver()[key]
+    const service = this.create()
+    const value = service[key]
+
+    if (typeof value === 'function') {
+      return value.bind(service)
+    }
+
+    return value
   }
 }
+
+module.exports = Manager
