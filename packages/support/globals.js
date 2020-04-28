@@ -1,0 +1,5 @@
+global.dd = require('@kindling/support/helpers/dd')
+global.proxy = require('@kindling/support/helpers/proxy')
+global.compose = require('@kindling/support/helpers/compose')
+global.collect = require('@kindling/support/helpers/collect')
+global.tie = require('@kindling/support/helpers/tie')
