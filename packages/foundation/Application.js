@@ -1,4 +1,4 @@
-const Container = require('@kindling/foundation/Container')
+const Container = require('@kindling/container/Container')
 const Path = require('path')
 
 class Application extends Container {

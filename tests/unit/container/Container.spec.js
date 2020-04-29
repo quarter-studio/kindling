@@ -1,6 +1,6 @@
-const Container = require('@kindling/foundation/Container')
+const Container = require('@kindling/container/Container')
 
-describe('@kindling/foundation/Container', () => {
+describe('@kindling/container/Container', () => {
   test('bind instance', () => {
     const container = new Container()
 
@@ -45,7 +45,7 @@ describe('@kindling/foundation/Container', () => {
   test('resolve class', () => {
     const container = new Container()
 
-    const instance = container.make('@kindling/foundation/Container')
+    const instance = container.make('@kindling/container/Container')
 
     expect(instance).toBeInstanceOf(Container)
   })
