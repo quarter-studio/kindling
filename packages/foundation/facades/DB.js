@@ -1,4 +1,4 @@
-const Facade = require('@kindling/foundation/Facade')
+const Facade = require('@kindling/support/Facade')
 
 class DB extends Facade {
   static getFacadeAccessor() {

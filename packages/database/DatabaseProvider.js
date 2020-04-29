@@ -1,10 +1,10 @@
 const DatabaseManager = require('@kindling/database/DatabaseManager')
-const Provider = require('@kindling/foundation/Provider')
+const Provider = require('@kindling/support/Provider')
 
 class DatabaseProvider extends Provider {
   register() {
     this.app.singleton('db', app => {
-      return proxy(new DatabaseManager(app))
+      return new DatabaseManager(app)
     })
   }
 }

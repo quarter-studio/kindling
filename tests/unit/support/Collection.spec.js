@@ -6,7 +6,7 @@ describe('@kindling/support/Collection', () => {
 
     const output = container.assign({ biz: 'baz' })
 
-    expect(input).toEqual(output.source)
+    expect(input).toEqual(output.value)
 
     expect(input).toEqual({ foo: 'bar', biz: 'baz' })
   })
@@ -20,10 +20,10 @@ describe('@kindling/support/Collection', () => {
       return value + 's'
     })
 
-    expect(input).not.toEqual(output.source)
+    expect(input).not.toEqual(output.value)
 
     expect(input).toEqual(['foo', 'bar'])
 
-    expect(output.source).toEqual(['foos', 'bars'])
+    expect(output.value).toEqual(['foos', 'bars'])
   })
 })

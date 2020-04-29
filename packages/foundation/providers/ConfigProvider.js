@@ -1,5 +1,5 @@
-const Repository = require('@kindling/foundation/Repository')
-const Provider = require('@kindling/foundation/Provider')
+const Repository = require('@kindling/config/Repository')
+const Provider = require('@kindling/support/Provider')
 const Finder = require('fs-finder')
 const Path = require('path')
 

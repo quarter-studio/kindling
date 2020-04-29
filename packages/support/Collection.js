@@ -1,23 +1,19 @@
+const Utility = require('@kindling/support/concerns/Utility')
+
 class Collection {
-  constructor(source = []) {
-    this.source = source
+  constructor(value = []) {
+    this.value = value
   }
 
   all() {
-    return this.source
+    return this.value
   }
 
-  call(name, args) {
-    const resolve = require('lodash/' + name)
-    const value = resolve(this.source, ...args)
-    return new this.constructor(value)
-  }
+  get(...args) {
+    const collection = args.length ? this.macro('get', args) : this
 
-  $get(key) {
-    return (...args) => {
-      return this.call(key, args)
-    }
+    return collection.value
   }
 }
 
-module.exports = compose(Collection)
+module.exports = compose(Collection, [Utility])

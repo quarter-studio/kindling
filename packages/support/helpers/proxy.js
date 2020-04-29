@@ -11,7 +11,7 @@ const construct = (target, args, context) => {
   const instance = Reflect.construct(target, args, context)
 
   if (instance.construct) {
-    instance.construct()
+    instance.construct.apply(instance, args)
   }
 
   return proxy(instance)

@@ -6,12 +6,10 @@
     "access": "public"
   },
   "files": [
+    "/helpers",
     "/globals.js",
     "/Application.js",
-    "/Container.js",
-    "/Provider.js",
-    "/Repository.js",
-    "/providers"
+    "/Container.js"
   ],
   "dependencies": {
     "commander": "^5.0.0",

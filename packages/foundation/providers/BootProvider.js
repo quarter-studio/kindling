@@ -1,4 +1,4 @@
-const Provider = require('@kindling/foundation/Provider')
+const Provider = require('@kindling/support/Provider')
 
 class BootProvider extends Provider {
   register() {

@@ -3,7 +3,7 @@ class FirestoreDriver {
     this.config = config
   }
 
-  getProject() {
+  get project() {
     return this.config.project
   }
 }

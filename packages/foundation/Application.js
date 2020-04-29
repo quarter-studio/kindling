@@ -81,11 +81,11 @@ class Application extends Container {
     return env
   }
 
-  isProduction() {
+  get live() {
     return this.environment('production')
   }
 
-  runningTests() {
+  get testing() {
     return this.environment('testing')
   }
 
@@ -117,17 +117,17 @@ class Application extends Container {
     this.booted = true
   }
 
-  getLocale() {
+  get locale() {
     return this.get('config').get('app.locale')
   }
 
-  setLocale(locale) {
+  set locale(locale) {
     this.get('config').set('app.locale', locale)
     this.get('translator').setLocale(locale)
   }
 
   isLocale(locale) {
-    return this.getLocale() === locale
+    return this.locale === locale
   }
 }
 

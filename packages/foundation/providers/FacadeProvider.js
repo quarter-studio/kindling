@@ -1,5 +1,5 @@
-const Provider = require('@kindling/foundation/Provider')
-const Facade = require('@kindling/foundation/Facade')
+const Provider = require('@kindling/support/Provider')
+const Facade = require('@kindling/support/Facade')
 
 class FacadeProvider extends Provider {
   register() {

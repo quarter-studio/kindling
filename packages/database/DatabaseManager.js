@@ -1,4 +1,4 @@
-const Manager = require('@kindling/foundation/Manager')
+const Manager = require('@kindling/support/Manager')
 
 class DatabaseManager extends Manager {
   createFirestoreDriver(container, config) {
@@ -6,4 +6,4 @@ class DatabaseManager extends Manager {
   }
 }
 
-module.exports = DatabaseManager
+module.exports = compose(DatabaseManager)
