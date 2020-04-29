@@ -6,6 +6,16 @@
     "access": "public"
   },
   "files": [
-    "/helpers"
-  ]
+    "/conerns",
+    "/helpers",
+    "/Collection.js",
+    "/Facade.js",
+    "/globals.js",
+    "/Manager.js",
+    "/Provider.js",
+    "/Rope.js"
+  ],
+  "dependencies": {
+    "lodash": "^4.17.15"
+  }
 }

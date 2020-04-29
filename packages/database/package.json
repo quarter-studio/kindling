@@ -6,8 +6,12 @@
     "access": "public"
   },
   "files": [
+    "/drivers",
+    "/gasoline",
     "/DatabaseManager.js",
-    "/DatabaseProvider.js",
-    "/Model.js"
-  ]
+    "/DatabaseProvider.js"
+  ],
+  "dependencies": {
+    "@kindling/support": "^0.0.0"
+  }
 }
